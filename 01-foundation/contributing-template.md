@@ -43,6 +43,7 @@ docs: update API reference
 Open an issue using the [bug report template](.github/ISSUE_TEMPLATE/bug.md).
 
 Include:
+
 - What you expected to happen
 - What actually happened
 - Steps to reproduce

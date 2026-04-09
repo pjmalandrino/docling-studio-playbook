@@ -24,6 +24,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [0.1.0] — <!-- REPLACE: YYYY-MM-DD -->
 
-### Added
+### Added — Initial release
 
 - <!-- REPLACE: Initial features -->
