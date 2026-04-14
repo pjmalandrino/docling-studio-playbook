@@ -19,7 +19,7 @@
 - Le comportement est coherent avec le reste de l'app
 
 ### Technique
-- Respect de la Clean Architecture (pas de fuite de couche)
+- Respect de l'architecture hexagonale (domain ne depend de rien, adapters implementent les ports)
 - Pas de duplication de logique metier
 - Les DTOs sont correctement separes des modeles domaine
 - Les erreurs sont gerees proprement (pas de `pass` silencieux)

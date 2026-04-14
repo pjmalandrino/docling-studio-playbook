@@ -13,12 +13,12 @@ Chaque sous-projet (backend, frontend) a son propre `CLAUDE.md` qui definit :
 
 ```
 Stack: FastAPI + Python 3.12+ + Docling 2.x + aiosqlite + pytest
-Architecture: Clean Architecture
-  - domain/    -> Pure business logic, aucune dep externe
-  - api/       -> FastAPI routers, Pydantic schemas (camelCase DTOs)
-  - services/  -> Orchestration des use cases
-  - persistence/ -> Repository pattern (aiosqlite)
-  - infra/     -> Adapters (converters, rate limiter, settings)
+Architecture: Hexagonal (Ports & Adapters)
+  - domain/      -> Le coeur : pure business logic, zero dep externe, definit les ports
+  - api/         -> Adapter IN : FastAPI routers, Pydantic schemas (camelCase DTOs)
+  - services/    -> Orchestration des use cases
+  - persistence/ -> Adapter OUT : Repository pattern (aiosqlite)
+  - infra/       -> Adapters OUT : converters, embeddings, rate limiter, settings
 
 Pipeline de validation:
   ruff check . --fix -> ruff format . -> ruff check . -> ruff format --check . -> pytest tests/ -v

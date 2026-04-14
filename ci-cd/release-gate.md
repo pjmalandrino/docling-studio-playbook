@@ -26,3 +26,10 @@ S'assure que tout est vert avant le merge vers main.
 | E2E @e2e | — | oui |
 
 Le release gate est plus strict : il inclut les tests E2E complets que la CI standard ne lance pas sur chaque PR.
+
+## Voir aussi
+
+- [CI standard](ci.md) — Pipeline sur chaque PR
+- [Release pipeline](release.md) — Build Docker apres le tag
+- [Process de release](../processes/release.md) — Etapes manuelles avant et apres
+- [Audit qualite](../processes/audit.md) — Framework d'audit complet (12 axes)

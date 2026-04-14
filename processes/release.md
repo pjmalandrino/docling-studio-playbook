@@ -17,7 +17,7 @@ git checkout -b release/X.Y.Z
 
 ### 3. Merge vers main via PR
 
-La PR declenche le **release gate** qui execute :
+La PR declenche le **[release gate](../ci-cd/release-gate.md)** qui execute :
 - Lint backend + frontend
 - Tests unitaires backend + frontend
 - Build Docker (smoke)
@@ -33,7 +33,7 @@ git push origin vX.Y.Z
 
 ### 5. Release automatique (GitHub Actions)
 
-Le push du tag declenche le workflow `release.yml` :
+Le push du tag declenche le workflow release ([detail](../ci-cd/release.md)) :
 
 - Build Docker **multi-arch** (linux/amd64 + linux/arm64)
 - 2 targets en matrice : `remote` et `local`

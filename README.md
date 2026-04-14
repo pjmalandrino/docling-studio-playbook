@@ -1,7 +1,35 @@
-# Developer Playbook
+# Docling Studio — Developer Playbook
 
-> Mon playbook de developpement complet, expose par souci de transparence.
-> Ce repo documente les processus, outils, workflows et conventions que j'utilise au quotidien sur mes projets.
+> Mon playbook de developpement complet pour [Docling Studio](https://github.com/scub-france/Docling-Studio), expose par souci de transparence.
+> Ce repo documente les processus, outils, workflows et conventions que j'utilise au quotidien.
+
+## A propos de ce playbook
+
+Ce repo ne contient **que les pratiques et processus**. Les fichiers suivants vivent dans le repo principal Docling Studio :
+- `CLAUDE.md` — Conventions par sous-projet (dans `document-parser/`, `frontend/`)
+- `CONTRIBUTING.md` — Guide de contribution
+- `CHANGELOG.md` — Historique des versions
+- `docs/` — Documentation complete (MkDocs, deployee sur GitHub Pages)
+
+---
+
+## Par ou commencer ?
+
+### Jour 1 — Installation et premier lancement
+1. [Onboarding : pre-requis et installation](processes/onboarding.md)
+2. [Lancer le projet](processes/onboarding.md#lancer-le-projet)
+3. [Comprendre l'architecture](#architecture-backend-hexagonal--ports--adapters) (Hexagonal, feature-based)
+
+### Premiere semaine — Developper
+4. [Conventions de commit](processes/commit-conventions.md) puis [Checklist code review](processes/code-review.md)
+5. [Strategie de tests](quality/testing-strategy.md) — Savoir quoi tester et comment
+6. [Flux de developpement local](#1-developpement-local) — Lint, format, test avant chaque commit
+
+### Quand j'en ai besoin
+- Deployer une release -> [Release](processes/release.md)
+- Bug critique en prod -> [Incident](processes/incident-response.md) puis [Hotfix](processes/hotfix.md) ou [Rollback](processes/rollback.md)
+- Decision d'architecture -> [ADR](processes/adr.md)
+- Comprendre la CI -> [CI Pipeline](ci-cd/ci.md)
 
 ---
 
@@ -72,7 +100,7 @@ Branche release/* prete
         Verdict automatique sur la PR : GO / GO CONDITIONAL / NO-GO
 ```
 
-**12 axes audites** : Clean Architecture, DDD, Clean Code, KISS, DRY, SOLID, Decouplage, Securite, Tests, CI/Build, Documentation, Performance.
+**12 axes audites** : Architecture Hexagonale, DDD, Clean Code, KISS, DRY, SOLID, Decouplage, Securite, Tests, CI/Build, Documentation, Performance.
 
 **Scoring** : chaque axe est pondere, score >= 80 = GO, tout `[CRIT]` = NO-GO absolu.
 
@@ -96,6 +124,30 @@ tag vX.Y.Z -> hotfix/X.Y.Z+1 -> PR main -> tag vX.Y.Z+1
 
 ---
 
+## Quel processus utiliser ?
+
+```
+Tu as un changement a faire
+  |
+  +-> C'est une nouvelle feature ou amelioration ?
+  |     -> feature/* branch -> PR vers main -> [Commit] [Code Review] [Merge]
+  |
+  +-> C'est un bug fix non critique ?
+  |     -> fix/* branch -> PR vers main -> [Commit] [Code Review] [Merge]
+  |
+  +-> C'est un bug critique en production ?
+  |     +-> Le fix est evident et rapide ?
+  |     |     -> [Hotfix] : hotfix/* depuis le tag -> PR main -> tag
+  |     +-> Le fix est complexe ou incertain ?
+  |           -> [Rollback] d'abord, puis fix en PR normale
+  |
+  +-> C'est une release ?
+  |     -> [Release] : release/* branch -> [Audit] -> merge main -> tag
+  |
+  +-> C'est une decision d'architecture ?
+        -> [ADR] : documenter dans docs/architecture/
+```
+
 ## Processus disponibles
 
 | # | Processus | Declencheur | Detail |
@@ -117,15 +169,29 @@ tag vX.Y.Z -> hotfix/X.Y.Z+1 -> PR main -> tag vX.Y.Z+1
 
 ## Stack technique detaillee
 
-### Architecture backend (Clean Architecture)
+### Architecture backend (Hexagonal — Ports & Adapters)
 
 ```
-api/           -> FastAPI routers, Pydantic schemas (camelCase DTOs)
-domain/        -> Pure business logic, aucune dep externe
-services/      -> Orchestration des use cases
-persistence/   -> Repository pattern (aiosqlite)
-infra/         -> Adapters externes (converters, rate limiter, settings)
+          ┌─────────────────────────────┐
+          │        domain/              │  <- Le coeur (hexagone)
+          │  Pure business logic        │     Aucune dependance externe
+          │  Models, value objects      │     Ports = interfaces
+          └──────────┬──────────────────┘
+                     │
+       ┌─────────────┼─────────────────────┐
+       ▼             ▼                     ▼
+   api/          services/          persistence/
+   Adapter IN    Orchestration      Adapter OUT
+   FastAPI       Use cases          Repository pattern
+   Pydantic DTOs                    (aiosqlite)
+   (camelCase)
+                                    infra/
+                                    Adapters OUT
+                                    Converters, embeddings,
+                                    rate limiter, settings
 ```
+
+**Principe** : le domaine ne depend de rien. Les adapters (API, persistence, infra) implementent des ports definis par le domaine. On peut remplacer n'importe quel adapter sans toucher au coeur.
 
 ### Architecture frontend (Feature-based)
 

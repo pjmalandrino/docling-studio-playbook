@@ -44,7 +44,7 @@ Quelle solution a ete retenue ?
 
 ## Exemples de decisions documentees
 
-- Choix de Clean Architecture (layers, ports, adapters)
+- Choix de l'architecture hexagonale (ports & adapters)
 - Choix de aiosqlite vs PostgreSQL
 - Choix de Karate pour les E2E
 - Double target Docker (remote/local)

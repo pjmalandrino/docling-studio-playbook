@@ -73,9 +73,17 @@ docker compose -f docker-compose.dev.yml up
 | Type-check | — | `npm run type-check` |
 | Build | — | `npm run build` |
 
-## Ressources
+## Parcours de lecture recommande
 
-- `CLAUDE.md` dans chaque sous-projet : conventions detaillees
-- `CONTRIBUTING.md` : guide de contribution
-- `CHANGELOG.md` : historique des versions
+1. Ce fichier (installation et commandes)
+2. [Architecture backend](../README.md#architecture-backend-hexagonal--ports--adapters) — Comprendre l'hexagonal
+3. [Conventions de commit](commit-conventions.md) — Avant ton premier commit
+4. [Code review checklist](code-review.md) — Ce qu'on attend dans une PR
+5. [Strategie de tests](../quality/testing-strategy.md) — Quoi tester et comment
+
+## Ressources (dans le repo principal Docling Studio)
+
+- `CLAUDE.md` dans chaque sous-projet (`document-parser/`, `frontend/`) : conventions detaillees
+- `CONTRIBUTING.md` a la racine : guide de contribution
+- `CHANGELOG.md` a la racine : historique des versions
 - `docs/` : documentation MkDocs deployee sur GitHub Pages

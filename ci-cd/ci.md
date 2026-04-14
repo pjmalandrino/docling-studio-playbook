@@ -60,6 +60,12 @@ steps:
   - Upload reports (artifacts)
 ```
 
+## Philosophie
+
+- **PR vers main** — Feedback rapide (30s a 2min). Smoke tests uniquement. Attrape les regressions evidentes.
+- **PR vers release** — Validation exhaustive (5-10min). Inclut regression + E2E complets. Garantit la solidite du candidat release. Voir [release gate](release-gate.md).
+- **Push main** — Tests UI critiques en plus, car main doit rester stable.
+
 ## Matrice de quand quoi tourne
 
 | Evenement | Backend | Frontend | E2E API | E2E UI |
@@ -67,3 +73,9 @@ steps:
 | PR -> main | lint + tests | lint + types + tests + build | @smoke | — |
 | PR -> release | lint + tests | lint + types + tests + build | @smoke + @regression + @e2e | — |
 | Push main | lint + tests | lint + types + tests + build | @smoke | @critical |
+
+## Voir aussi
+
+- [Release gate](release-gate.md) — Validation renforcee sur les PR release
+- [Release pipeline](release.md) — Build Docker declenche par les tags
+- [Testing strategy](../quality/testing-strategy.md) — Pyramide de tests et conventions

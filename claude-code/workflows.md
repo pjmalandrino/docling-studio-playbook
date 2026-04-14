@@ -51,7 +51,7 @@ Ce pipeline est execute **avant chaque commit** cote frontend.
 
 ## Conventions respectees par Claude Code
 
-- **Clean Architecture** : pas de fuite de couche (domain ne depend de rien)
+- **Architecture Hexagonale** : pas de fuite de couche (domain ne depend de rien, adapters implementent les ports)
 - **DTOs separes** : Pydantic schemas (camelCase) != modeles domaine
 - **Feature-based** : chaque feature frontend dans son dossier avec api/, store/, ui/
 - **Tests colocates** : `*.test.ts` a cote du code source

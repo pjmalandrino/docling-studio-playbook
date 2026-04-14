@@ -9,7 +9,7 @@ L'audit est execute avant chaque merge de branche `release/*` vers `main`.
 
 | # | Axe | Focus |
 |---|-----|-------|
-| 01 | **Clean Architecture** | Separation des couches (API/domain/service/infra), pas de fuite |
+| 01 | **Architecture Hexagonale** | Isolation du domaine, ports & adapters, pas de fuite de couche |
 | 02 | **DDD** | Bounded contexts, value objects, ubiquitous language |
 | 03 | **Clean Code** | Nommage, taille de fichiers, lisibilite |
 | 04 | **KISS** | Simplicite, pas d'over-engineering |
