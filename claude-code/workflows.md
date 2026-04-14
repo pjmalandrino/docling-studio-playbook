@@ -1,17 +1,17 @@
 # Claude Code Workflows
 
-## Pipelines de validation automatises
+## Automated validation pipelines
 
-Claude Code suit les pipelines definis dans les `CLAUDE.md` de chaque sous-projet. Voici les deux pipelines principaux :
+Claude Code follows the pipelines defined in each subproject's `CLAUDE.md`. Here are the two main pipelines:
 
-### Backend — Validation complete
+### Backend — Full validation
 
 ```bash
-# 1. Fix automatique
+# 1. Auto-fix
 ruff check . --fix
 ruff format .
 
-# 2. Verification stricte
+# 2. Strict verification
 ruff check .
 ruff format --check .
 
@@ -19,16 +19,16 @@ ruff format --check .
 pytest tests/ -v
 ```
 
-Ce pipeline est execute **avant chaque commit** cote backend.
+This pipeline runs **before every commit** on the backend side.
 
-### Frontend — Validation complete
+### Frontend — Full validation
 
 ```bash
-# 1. Fix automatique
+# 1. Auto-fix
 npm run lint:fix
 npm run format
 
-# 2. Verification stricte
+# 2. Strict verification
 npm run lint
 npm run format:check
 
@@ -39,21 +39,21 @@ npm run type-check
 npm run test:run
 ```
 
-Ce pipeline est execute **avant chaque commit** cote frontend.
+This pipeline runs **before every commit** on the frontend side.
 
-## Workflow typique d'une feature
+## Typical feature workflow
 
-1. **Comprendre** — Claude Code lit le code existant, les tests, les specs
-2. **Implementer** — Code backend et/ou frontend
-3. **Valider** — Execute le pipeline de validation du sous-projet concerne
-4. **Tester visuellement** — Lance le dev server (launch.json) et verifie dans le navigateur
-5. **Commiter** — Conventional Commits avec scope appropriee
+1. **Understand** — Claude Code reads existing code, tests, specs
+2. **Implement** — Backend and/or frontend code
+3. **Validate** — Runs the relevant subproject's validation pipeline
+4. **Visual test** — Launches the dev server (launch.json) and verifies in the browser
+5. **Commit** — Conventional Commits with appropriate scope
 
-## Conventions respectees par Claude Code
+## Conventions enforced by Claude Code
 
-- **Architecture Hexagonale** : pas de fuite de couche (domain ne depend de rien, adapters implementent les ports)
-- **DTOs separes** : Pydantic schemas (camelCase) != modeles domaine
-- **Feature-based** : chaque feature frontend dans son dossier avec api/, store/, ui/
-- **Tests colocates** : `*.test.ts` a cote du code source
-- **DOMPurify** : tout HTML dynamique est sanitise
-- **No console.log** : uniquement `console.warn` et `console.error`
+- **Hexagonal Architecture**: no layer leaks (domain depends on nothing, adapters implement ports)
+- **Separate DTOs**: Pydantic schemas (camelCase) != domain models
+- **Feature-based**: each frontend feature in its own folder with api/, store/, ui/
+- **Colocated tests**: `*.test.ts` next to source code
+- **DOMPurify**: all dynamic HTML is sanitized
+- **No console.log**: only `console.warn` and `console.error`

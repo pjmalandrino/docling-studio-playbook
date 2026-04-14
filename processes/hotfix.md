@@ -1,31 +1,31 @@
 # Hotfix Process
 
-## Quand utiliser
+## When to use
 
-Bug critique en production necessitant un patch immediat, sans attendre le cycle de release normal.
+Critical production bug requiring an immediate patch, without waiting for the normal release cycle.
 
-## Etapes
+## Steps
 
-### 1. Creer la branche hotfix depuis le tag
+### 1. Create the hotfix branch from the tag
 
 ```bash
 git checkout vX.Y.Z
 git checkout -b hotfix/X.Y.Z+1
 ```
 
-### 2. Corriger et commiter
+### 2. Fix and commit
 
 ```bash
-# Appliquer le fix
-git commit -m "fix(scope): description du fix critique"
+# Apply the fix
+git commit -m "fix(scope): description of the critical fix"
 ```
 
-### 3. PR vers main
+### 3. PR to main
 
-- La CI valide le fix
-- Review acceleree (1 approbation minimum)
+- CI validates the fix
+- Expedited review (1 approval minimum)
 
-### 4. Tag apres merge
+### 4. Tag after merge
 
 ```bash
 git checkout main && git pull
@@ -33,10 +33,10 @@ git tag vX.Y.Z+1
 git push origin vX.Y.Z+1
 ```
 
-Le tag declenche automatiquement le build et push Docker.
+The tag automatically triggers the Docker build and push.
 
-## Points d'attention
+## Important notes
 
-- Un hotfix ne contient **que** le fix, rien d'autre
-- Mettre a jour le `CHANGELOG.md` avec la section hotfix
-- Verifier que les E2E passent avant de tagger
+- A hotfix contains **only** the fix, nothing else
+- Update `CHANGELOG.md` with the hotfix section
+- Verify E2E tests pass before tagging

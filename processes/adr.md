@@ -1,50 +1,50 @@
 # Architecture Decision Records (ADR)
 
-## Quand ecrire un ADR
+## When to write an ADR
 
-- Choix de technologie ou framework
-- Changement de pattern architectural
-- Decision ayant un impact transverse
-- Trade-off significatif entre options
+- Technology or framework choice
+- Architectural pattern change
+- Decision with cross-cutting impact
+- Significant trade-off between options
 
 ## Template
 
 ```markdown
-# ADR-XXX : Titre de la decision
+# ADR-XXX: Decision title
 
-## Statut
-Propose | Accepte | Deprecie | Remplace par ADR-YYY
+## Status
+Proposed | Accepted | Deprecated | Superseded by ADR-YYY
 
-## Contexte
-Quel probleme ou besoin a declenche cette decision ?
+## Context
+What problem or need triggered this decision?
 
 ## Decision
-Quelle solution a ete retenue ?
+What solution was chosen?
 
 ## Consequences
-### Positives
+### Positive
 - ...
 
-### Negatives
+### Negative
 - ...
 
-### Risques
+### Risks
 - ...
 
-## Alternatives considerees
-1. **Option A** — Description, pourquoi ecartee
-2. **Option B** — Description, pourquoi ecartee
+## Alternatives considered
+1. **Option A** — Description, why discarded
+2. **Option B** — Description, why discarded
 ```
 
-## Convention de nommage
+## Naming convention
 
-- Fichier : `docs/architecture/adr-XXX-titre-court.md`
-- Numerotation sequentielle
-- Titre court en kebab-case
+- File: `docs/architecture/adr-XXX-short-title.md`
+- Sequential numbering
+- Short title in kebab-case
 
-## Exemples de decisions documentees
+## Examples of documented decisions
 
-- Choix de l'architecture hexagonale (ports & adapters)
-- Choix de aiosqlite vs PostgreSQL
-- Choix de Karate pour les E2E
-- Double target Docker (remote/local)
+- Choice of hexagonal architecture (ports & adapters)
+- Choice of aiosqlite vs PostgreSQL
+- Choice of Karate for E2E testing
+- Dual Docker target (remote/local)

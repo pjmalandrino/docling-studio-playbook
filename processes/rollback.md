@@ -1,37 +1,37 @@
 # Rollback Process
 
-## Quand utiliser
+## When to use
 
-Incident post-deploy qui ne peut pas etre corrige rapidement par un hotfix.
+Post-deploy incident that cannot be quickly resolved with a hotfix.
 
-## Etapes
+## Steps
 
-### 1. Identifier la derniere version stable
+### 1. Identify the last stable version
 
 ```bash
 git tag --list 'v*' --sort=-version:refname | head -5
 ```
 
-### 2. Redeployer l'image Docker precedente
+### 2. Redeploy the previous Docker image
 
 ```bash
-# Pull l'image de la version stable
+# Pull the stable version image
 docker pull ghcr.io/<org>/<repo>:X.Y.Z-<target>
 
-# Redemarrer avec cette version
+# Restart with that version
 docker compose down
-# Mettre a jour le tag dans docker-compose.yml ou .env
+# Update the tag in docker-compose.yml or .env
 docker compose up -d
 ```
 
-### 3. Valider le rollback
+### 3. Validate the rollback
 
-- Verifier les health endpoints
-- Lancer les tests E2E @smoke
-- Confirmer que le probleme est resolu
+- Check health endpoints
+- Run E2E @smoke tests
+- Confirm the issue is resolved
 
 ### 4. Post-mortem
 
-- Documenter l'incident
-- Creer un hotfix pour la version problematique
-- Ne jamais re-tagger une version existante
+- Document the incident
+- Create a hotfix for the problematic version
+- Never re-tag an existing version

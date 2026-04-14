@@ -1,22 +1,22 @@
-# Infrastructure Docker
+# Docker Infrastructure
 
-## Dockerfile multi-target
+## Multi-target Dockerfile
 
-Le projet utilise un seul Dockerfile avec deux targets :
+The project uses a single Dockerfile with two targets:
 
-### Target `remote` (leger)
+### Target `remote` (lightweight)
 
 - Python 3.12-slim
-- Backend FastAPI qui delegue le parsing a un service externe via HTTP
-- Frontend build (Vite) servi par Nginx
-- Deps systeme : poppler-utils, nginx
+- FastAPI backend delegates parsing to an external service via HTTP
+- Frontend build (Vite) served by Nginx
+- System deps: poppler-utils, nginx
 
-### Target `local` (autonome)
+### Target `local` (standalone)
 
-- Tout ce que `remote` inclut, plus :
-- Docling complet avec modeles IA embarques
+- Everything `remote` includes, plus:
+- Full Docling with embedded AI models
 - PyTorch CPU
-- Deps systeme supplementaires : libgl1, libglib2.0-0
+- Additional system deps: libgl1, libglib2.0-0
 - `CONVERSION_ENGINE=local`
 
 ### Build
@@ -26,33 +26,33 @@ docker build --target remote -t app:remote .
 docker build --target local -t app:local .
 ```
 
-## Docker Compose Stacks
+## Docker Compose stacks
 
 ### Production (`docker-compose.yml`)
 
 | Service | Role | Port |
 |---------|------|------|
-| `app` | Backend FastAPI | 8000 (interne) |
-| `frontend` | Nginx servant le build Vite | 3000:80 |
+| `app` | FastAPI backend | 8000 (internal) |
+| `frontend` | Nginx serving Vite build | 3000:80 |
 
-### Developpement (`docker-compose.dev.yml`)
+### Development (`docker-compose.dev.yml`)
 
-| Service | Role | Specifite |
+| Service | Role | Specifics |
 |---------|------|-----------|
-| `app` | Backend avec `uvicorn --reload` | Hot-reload, volume bind mount |
+| `app` | Backend with `uvicorn --reload` | Hot-reload, volume bind mount |
 | `frontend` | Vite dev server (HMR) | Hot-reload, volume bind mount |
-| `opensearch-dashboards` | UI d'inspection des index | Port 5601 |
+| `opensearch-dashboards` | Index inspection UI | Port 5601 |
 
 ### Ingestion (`docker-compose.ingestion.yml`)
 
-Overlay additionnel pour activer la recherche vectorielle :
+Additional overlay to enable vector search:
 
 | Service | Role | Port |
 |---------|------|------|
-| `opensearch` | Moteur de recherche vectorielle | 9200 |
-| `embedding` | Service sentence-transformers | 8001 |
+| `opensearch` | Vector search engine | 9200 |
+| `embedding` | Sentence-transformers service | 8001 |
 
-**Lancement avec ingestion :**
+**Launch with ingestion:**
 ```bash
 docker compose --profile ingestion \
   -f docker-compose.yml \
@@ -60,21 +60,21 @@ docker compose --profile ingestion \
   up --build
 ```
 
-## Variables d'environnement
+## Environment variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `CONVERSION_MODE` | `remote` | Target Docker (remote/local) |
-| `CONVERSION_ENGINE` | `remote` | Moteur de conversion runtime |
-| `CONVERSION_TIMEOUT` | `900` | Timeout par conversion (sec) |
-| `MAX_CONCURRENT_ANALYSES` | `3` | Jobs paralleles max |
-| `MAX_FILE_SIZE_MB` | `50` | Taille max upload |
-| `MAX_PAGE_COUNT` | `0` | Limite pages PDF (0 = illimite) |
-| `RATE_LIMIT_RPM` | `100` | Requetes par minute par IP |
-| `CORS_ORIGINS` | — | Origines autorisees |
-| `UPLOAD_DIR` | `./uploads` | Dossier uploads |
-| `DB_PATH` | `./data/app.db` | Chemin base SQLite |
-| `OPENSEARCH_URL` | — | URL OpenSearch (optionnel) |
-| `EMBEDDING_URL` | — | URL service embedding (optionnel) |
-| `EMBEDDING_MODEL` | `all-MiniLM-L6-v2` | Modele d'embedding |
-| `EMBEDDING_DIMENSION` | `384` | Dimension des vecteurs |
+| `CONVERSION_MODE` | `remote` | Docker target (remote/local) |
+| `CONVERSION_ENGINE` | `remote` | Runtime conversion engine |
+| `CONVERSION_TIMEOUT` | `900` | Timeout per conversion (sec) |
+| `MAX_CONCURRENT_ANALYSES` | `3` | Max parallel jobs |
+| `MAX_FILE_SIZE_MB` | `50` | Max upload size |
+| `MAX_PAGE_COUNT` | `0` | PDF page limit (0 = unlimited) |
+| `RATE_LIMIT_RPM` | `100` | Requests per minute per IP |
+| `CORS_ORIGINS` | — | Allowed origins |
+| `UPLOAD_DIR` | `./uploads` | Uploads directory |
+| `DB_PATH` | `./data/app.db` | SQLite database path |
+| `OPENSEARCH_URL` | — | OpenSearch URL (optional) |
+| `EMBEDDING_URL` | — | Embedding service URL (optional) |
+| `EMBEDDING_MODEL` | `all-MiniLM-L6-v2` | Embedding model |
+| `EMBEDDING_DIMENSION` | `384` | Vector dimension |

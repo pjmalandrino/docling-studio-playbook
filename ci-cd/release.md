@@ -1,8 +1,8 @@
 # Release Pipeline
 
-## Declencheur
+## Trigger
 
-Push d'un tag matchant `v*` (ex: `v0.4.0`).
+Push of a tag matching `v*` (e.g., `v0.4.0`).
 
 ## Jobs
 
@@ -26,19 +26,19 @@ steps:
     - Cache: GitHub Actions cache
 ```
 
-## Images produites
+## Published images
 
-Pour chaque release `vX.Y.Z`, 6 tags sont publies :
+For each release `vX.Y.Z`, 6 tags are published:
 
-| Tag | Contenu |
-|-----|---------|
-| `X.Y.Z-remote` | Version exacte, mode remote |
-| `X.Y-remote` | Derniere patch du minor, mode remote |
-| `latest-remote` | Derniere release, mode remote |
-| `X.Y.Z-local` | Version exacte, mode local (avec modeles IA) |
-| `X.Y-local` | Derniere patch du minor, mode local |
-| `latest-local` | Derniere release, mode local |
+| Tag | Contents |
+|-----|----------|
+| `X.Y.Z-remote` | Exact version, remote mode |
+| `X.Y-remote` | Latest patch of minor, remote mode |
+| `latest-remote` | Latest release, remote mode |
+| `X.Y.Z-local` | Exact version, local mode (with AI models) |
+| `X.Y-local` | Latest patch of minor, local mode |
+| `latest-local` | Latest release, local mode |
 
 ## Registry
 
-Images publiees sur `ghcr.io` (GitHub Container Registry).
+Images published to `ghcr.io` (GitHub Container Registry).

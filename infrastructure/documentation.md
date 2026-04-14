@@ -2,18 +2,18 @@
 
 ## Stack
 
-- **MkDocs** avec theme **Material**
-- Deploye sur **GitHub Pages** via GitHub Actions (`docs.yml`)
+- **MkDocs** with **Material** theme
+- Deployed on **GitHub Pages** via GitHub Actions (`docs.yml`)
 
 ## Structure
 
 ```
 docs/
-  index.md                  # Page d'accueil
-  getting-started.md        # Guide de demarrage
-  architecture.md           # Vue d'ensemble architecture
-  PROCESSES.md              # Index des 19 processus
-  CONTRIBUTING.md           # Guide de contribution
+  index.md                  # Home page
+  getting-started.md        # Getting started guide
+  architecture.md           # Architecture overview
+  PROCESSES.md              # Process index (19 processes)
+  CONTRIBUTING.md           # Contribution guide
   git-workflow/
     commit-conventions.md
     code-review-checklist.md
@@ -34,12 +34,12 @@ docs/
     issue-triage.md
     roadmap-template.md
   audit/
-    # 12+ axes d'audit qualite
+    # 12+ quality audit axes
 ```
 
 ## Navigation (mkdocs.yml)
 
-Le site est organise en sections :
+The site is organized into sections:
 1. Home
 2. Getting Started
 3. Architecture
@@ -48,11 +48,11 @@ Le site est organise en sections :
 6. Release (Deployment, Rollback)
 7. Operations (Incident, Security, Monitoring)
 8. Community (Onboarding, Issue Triage, Roadmap)
-9. Audit (12 axes de qualite)
+9. Audit (12 quality axes)
 
 ## Deployment
 
-Le workflow `docs.yml` build et deploie automatiquement sur push vers `main`.
+The `docs.yml` workflow automatically builds and deploys on push to `main`.
 
 ```bash
 # Local preview

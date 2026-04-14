@@ -1,44 +1,44 @@
 # Docling Studio — Developer Playbook
 
-> Mon playbook de developpement complet pour [Docling Studio](https://github.com/scub-france/Docling-Studio), expose par souci de transparence.
-> Ce repo documente les processus, outils, workflows et conventions que j'utilise au quotidien.
+> My complete development playbook for [Docling Studio](https://github.com/scub-france/Docling-Studio), shared for full transparency.
+> This repo documents the processes, tools, workflows, and conventions I use daily.
 
-## A propos de ce playbook
+## About this playbook
 
-Ce repo ne contient **que les pratiques et processus**. Les fichiers suivants vivent dans le repo principal Docling Studio :
-- `CLAUDE.md` — Conventions par sous-projet (dans `document-parser/`, `frontend/`)
-- `CONTRIBUTING.md` — Guide de contribution
-- `CHANGELOG.md` — Historique des versions
-- `docs/` — Documentation complete (MkDocs, deployee sur GitHub Pages)
-
----
-
-## Par ou commencer ?
-
-### Jour 1 — Installation et premier lancement
-1. [Onboarding : pre-requis et installation](processes/onboarding.md)
-2. [Lancer le projet](processes/onboarding.md#lancer-le-projet)
-3. [Comprendre l'architecture](#architecture-backend-hexagonal--ports--adapters) (Hexagonal, feature-based)
-
-### Premiere semaine — Developper
-4. [Conventions de commit](processes/commit-conventions.md) puis [Checklist code review](processes/code-review.md)
-5. [Strategie de tests](quality/testing-strategy.md) — Savoir quoi tester et comment
-6. [Flux de developpement local](#1-developpement-local) — Lint, format, test avant chaque commit
-
-### Quand j'en ai besoin
-- Deployer une release -> [Release](processes/release.md)
-- Bug critique en prod -> [Incident](processes/incident-response.md) puis [Hotfix](processes/hotfix.md) ou [Rollback](processes/rollback.md)
-- Decision d'architecture -> [ADR](processes/adr.md)
-- Comprendre la CI -> [CI Pipeline](ci-cd/ci.md)
+This repo contains **practices and processes only**. The following files live in the main Docling Studio repository:
+- `CLAUDE.md` — Per-subproject conventions (in `document-parser/`, `frontend/`)
+- `CONTRIBUTING.md` — Contribution guidelines
+- `CHANGELOG.md` — Version history
+- `docs/` — Full documentation (MkDocs, deployed on GitHub Pages)
 
 ---
 
-## Vue d'ensemble
+## Where to start?
 
-Ce playbook couvre un projet full-stack compose de :
+### Day 1 — Setup and first launch
+1. [Onboarding: prerequisites and installation](processes/onboarding.md)
+2. [Run the project](processes/onboarding.md#run-the-project)
+3. [Understand the architecture](#backend-architecture-hexagonal--ports--adapters) (Hexagonal, feature-based)
 
-| Couche | Stack | Outils qualite |
-|--------|-------|----------------|
+### First week — Start developing
+4. [Commit conventions](processes/commit-conventions.md) then [Code review checklist](processes/code-review.md)
+5. [Testing strategy](quality/testing-strategy.md) — What to test and how
+6. [Local development workflow](#1-local-development) — Lint, format, test before every commit
+
+### When you need it
+- Deploy a release → [Release](processes/release.md)
+- Critical bug in production → [Incident](processes/incident-response.md) then [Hotfix](processes/hotfix.md) or [Rollback](processes/rollback.md)
+- Architecture decision → [ADR](processes/adr.md)
+- Understand the CI → [CI Pipeline](ci-cd/ci.md)
+
+---
+
+## Overview
+
+This playbook covers a full-stack project composed of:
+
+| Layer | Stack | Quality tools |
+|-------|-------|---------------|
 | **Backend** | FastAPI + Python 3.12 + aiosqlite | Ruff (lint + format), pytest |
 | **Frontend** | Vue 3 + TypeScript (strict) + Vite + Pinia | ESLint 9 (flat config) + Prettier, Vitest |
 | **E2E** | Karate (API) + Karate UI (browser) | Maven, Chrome headless |
@@ -47,64 +47,64 @@ Ce playbook couvre un projet full-stack compose de :
 
 ---
 
-## Flux existants
+## Existing workflows
 
-### 1. Developpement local
+### 1. Local development
 
 ```
-Code -> Lint/Format -> Tests unitaires -> Commit (Conventional Commits)
+Code -> Lint/Format -> Unit tests -> Commit (Conventional Commits)
 ```
 
-**Backend :**
+**Backend:**
 ```bash
 ruff check . --fix && ruff format .    # Lint + format
-ruff check . && ruff format --check .  # Verification
+ruff check . && ruff format --check .  # Verify
 pytest tests/ -v                       # Tests (377+ tests)
 ```
 
-**Frontend :**
+**Frontend:**
 ```bash
 npm run lint:fix && npm run format     # Lint + format
-npm run lint && npm run format:check   # Verification
+npm run lint && npm run format:check   # Verify
 npm run type-check                     # vue-tsc --noEmit
 npm run test:run                       # Vitest (156+ tests)
 ```
 
-### 2. Pipeline CI (GitHub Actions)
+### 2. CI pipeline (GitHub Actions)
 
 ```
-PR ouverte
+PR opened
   |
-  +-> Backend : ruff check + pytest
-  +-> Frontend : eslint + vue-tsc + vitest + vite build
+  +-> Backend: ruff check + pytest
+  +-> Frontend: eslint + vue-tsc + vitest + vite build
   |
-  +-> E2E API (@smoke sur PR, @smoke+@regression+@e2e sur release PR)
-  +-> E2E UI (@critical sur main uniquement)
+  +-> E2E API (@smoke on PR, @smoke+@regression+@e2e on release PR)
+  +-> E2E UI (@critical on main only)
 ```
 
-### 3. Audit qualite (pre-release)
+### 3. Quality audit (pre-release)
 
 ```
-Branche release/* prete
+release/* branch ready
   |
-  +-> Phase 1 (parallele) :
-  |     Lint + Tests + Audit deps (pip-audit, npm audit) + Audit checks (script 12 axes)
+  +-> Phase 1 (parallel):
+  |     Lint + Tests + Dep audit (pip-audit, npm audit) + Audit checks (12-axis script)
   |
-  +-> Phase 2 :
-  |     Docker build (remote + local) + Smoke test + Scan Trivy + Check taille image
+  +-> Phase 2:
+  |     Docker build (remote + local) + Smoke test + Trivy scan + Image size check
   |
-  +-> Phase 3 :
+  +-> Phase 3:
   |     E2E API (@smoke + @regression + @e2e) + E2E UI (@critical)
   |
-  +-> Phase 4 :
-        Verdict automatique sur la PR : GO / GO CONDITIONAL / NO-GO
+  +-> Phase 4:
+        Automatic verdict on PR: GO / GO CONDITIONAL / NO-GO
 ```
 
-**12 axes audites** : Architecture Hexagonale, DDD, Clean Code, KISS, DRY, SOLID, Decouplage, Securite, Tests, CI/Build, Documentation, Performance.
+**12 audited axes**: Hexagonal Architecture, DDD, Clean Code, KISS, DRY, SOLID, Decoupling, Security, Tests, CI/Build, Documentation, Performance.
 
-**Scoring** : chaque axe est pondere, score >= 80 = GO, tout `[CRIT]` = NO-GO absolu.
+**Scoring**: each axis is weighted, score >= 80 = GO, any `[CRIT]` = absolute NO-GO.
 
-Voir le [detail complet du processus d'audit](processes/audit.md).
+See [full audit process details](processes/audit.md).
 
 ### 4. Release
 
@@ -112,69 +112,69 @@ Voir le [detail complet du processus d'audit](processes/audit.md).
 main -> release/X.Y.Z -> Audit GO -> merge main -> tag vX.Y.Z
   |
   +-> Docker build multi-arch (amd64 + arm64)
-  +-> 2 targets : remote (leger) / local (avec modeles IA)
-  +-> Push ghcr.io avec tags semantiques (X.Y.Z, X.Y, latest)
+  +-> 2 targets: remote (lightweight) / local (with AI models)
+  +-> Push to ghcr.io with semantic tags (X.Y.Z, X.Y, latest)
 ```
 
 ### 5. Hotfix
 
 ```
-tag vX.Y.Z -> hotfix/X.Y.Z+1 -> PR main -> tag vX.Y.Z+1
+tag vX.Y.Z -> hotfix/X.Y.Z+1 -> PR to main -> tag vX.Y.Z+1
 ```
 
 ---
 
-## Quel processus utiliser ?
+## Which process should I use?
 
 ```
-Tu as un changement a faire
+You have a change to make
   |
-  +-> C'est une nouvelle feature ou amelioration ?
-  |     -> feature/* branch -> PR vers main -> [Commit] [Code Review] [Merge]
+  +-> New feature or enhancement?
+  |     -> feature/* branch -> PR to main -> [Commit] [Code Review] [Merge]
   |
-  +-> C'est un bug fix non critique ?
-  |     -> fix/* branch -> PR vers main -> [Commit] [Code Review] [Merge]
+  +-> Non-critical bug fix?
+  |     -> fix/* branch -> PR to main -> [Commit] [Code Review] [Merge]
   |
-  +-> C'est un bug critique en production ?
-  |     +-> Le fix est evident et rapide ?
-  |     |     -> [Hotfix] : hotfix/* depuis le tag -> PR main -> tag
-  |     +-> Le fix est complexe ou incertain ?
-  |           -> [Rollback] d'abord, puis fix en PR normale
+  +-> Critical production bug?
+  |     +-> Fix is obvious and quick?
+  |     |     -> [Hotfix]: hotfix/* from tag -> PR to main -> tag
+  |     +-> Fix is complex or uncertain?
+  |           -> [Rollback] first, then fix via regular PR
   |
-  +-> C'est une release ?
-  |     -> [Release] : release/* branch -> [Audit] -> merge main -> tag
+  +-> Release time?
+  |     -> [Release]: release/* branch -> [Audit] -> merge main -> tag
   |
-  +-> C'est une decision d'architecture ?
-        -> [ADR] : documenter dans docs/architecture/
+  +-> Architecture decision?
+        -> [ADR]: document in docs/architecture/
 ```
 
-## Processus disponibles
+## Available processes
 
-| # | Processus | Declencheur | Detail |
-|---|-----------|-------------|--------|
-| 1 | [Commit](processes/commit-conventions.md) | Chaque commit | Conventional Commits strict |
-| 2 | [Code Review](processes/code-review.md) | Chaque PR | Checklist structuree |
-| 3 | [Merge Policy](processes/merge-policy.md) | PR prete | Regles de merge |
-| 4 | [ADR](processes/adr.md) | Decision architecturale | Architecture Decision Records |
-| 5 | [**Audit Qualite**](processes/audit.md) | Avant merge release -> main | 12 axes, scoring pondere, CRIT/MAJ/MIN/INFO |
+| # | Process | Trigger | Details |
+|---|---------|---------|---------|
+| 1 | [Commit](processes/commit-conventions.md) | Every commit | Strict Conventional Commits |
+| 2 | [Code Review](processes/code-review.md) | Every PR | Structured checklist |
+| 3 | [Merge Policy](processes/merge-policy.md) | PR ready | Merge rules |
+| 4 | [ADR](processes/adr.md) | Architecture decision | Architecture Decision Records |
+| 5 | [**Quality Audit**](processes/audit.md) | Before merge release -> main | 12 axes, weighted scoring, CRIT/MAJ/MIN/INFO |
 | 6 | [Release](processes/release.md) | Feature freeze | Branch, tag, deploy |
-| 7 | [Hotfix](processes/hotfix.md) | Bug critique en prod | Patch rapide |
-| 8 | [Rollback](processes/rollback.md) | Incident post-deploy | Retour version precedente |
-| 9 | [Incident Response](processes/incident-response.md) | Incident detecte | Triage, resolution, post-mortem |
-| 10 | [Security Response](processes/security-response.md) | Vulnerabilite detectee | Evaluation, patch, disclosure |
-| 11 | [Onboarding](processes/onboarding.md) | Nouveau contributeur | Guide d'integration |
-| 12 | [Issue Triage](processes/issue-triage.md) | Nouvelle issue | Classification et priorisation |
+| 7 | [Hotfix](processes/hotfix.md) | Critical bug in production | Quick patch |
+| 8 | [Rollback](processes/rollback.md) | Post-deploy incident | Revert to previous version |
+| 9 | [Incident Response](processes/incident-response.md) | Incident detected | Triage, resolution, post-mortem |
+| 10 | [Security Response](processes/security-response.md) | Vulnerability detected | Assessment, patch, disclosure |
+| 11 | [Onboarding](processes/onboarding.md) | New contributor | Getting started guide |
+| 12 | [Issue Triage](processes/issue-triage.md) | New issue | Classification and prioritization |
 
 ---
 
-## Stack technique detaillee
+## Detailed tech stack
 
-### Architecture backend (Hexagonal — Ports & Adapters)
+### Backend architecture (Hexagonal — Ports & Adapters)
 
 ```
           ┌─────────────────────────────┐
-          │        domain/              │  <- Le coeur (hexagone)
-          │  Pure business logic        │     Aucune dependance externe
+          │        domain/              │  <- The core (hexagon)
+          │  Pure business logic        │     No external dependencies
           │  Models, value objects      │     Ports = interfaces
           └──────────┬──────────────────┘
                      │
@@ -191,42 +191,42 @@ Tu as un changement a faire
                                     rate limiter, settings
 ```
 
-**Principe** : le domaine ne depend de rien. Les adapters (API, persistence, infra) implementent des ports definis par le domaine. On peut remplacer n'importe quel adapter sans toucher au coeur.
+**Principle**: the domain depends on nothing. Adapters (API, persistence, infra) implement ports defined by the domain. Any adapter can be swapped without touching the core.
 
-### Architecture frontend (Feature-based)
+### Frontend architecture (Feature-based)
 
 ```
 src/
-  app/         -> Shell applicatif, router, styles globaux
-  pages/       -> Pages de route
-  features/    -> Modules fonctionnels
+  app/         -> Application shell, router, global styles
+  pages/       -> Route pages
+  features/    -> Feature modules
     {name}/
-      api/     -> Appels HTTP
-      store/   -> State Pinia
-      ui/      -> Composants Vue
-  shared/      -> Utilitaires, types, i18n, http client
+      api/     -> HTTP calls
+      store/   -> Pinia state
+      ui/      -> Vue components
+  shared/      -> Utilities, types, i18n, HTTP client
 ```
 
-### Infrastructure Docker
+### Docker infrastructure
 
-| Target | Contenu | Usage |
-|--------|---------|-------|
-| `remote` | Backend leger, delegue le parsing via HTTP | Quand un service de conversion externe existe |
-| `local` | Backend + modeles IA embarques (PyTorch CPU) | Autonome, tout-en-un |
+| Target | Contents | Use case |
+|--------|----------|----------|
+| `remote` | Lightweight backend, delegates parsing via HTTP | When an external conversion service exists |
+| `local` | Backend + embedded AI models (PyTorch CPU) | Standalone, all-in-one |
 
-**Compose stacks :**
+**Compose stacks:**
 
-| Stack | Fichier | Services |
-|-------|---------|----------|
+| Stack | File | Services |
+|-------|------|----------|
 | Production | `docker-compose.yml` | app + nginx |
-| Developpement | `docker-compose.dev.yml` | + hot-reload (uvicorn --reload, vite HMR) |
+| Development | `docker-compose.dev.yml` | + hot-reload (uvicorn --reload, vite HMR) |
 | Ingestion | `docker-compose.ingestion.yml` | + OpenSearch + embedding service |
 
 ---
 
-## Configuration qualite
+## Quality configuration
 
-Voir les details dans :
+See details in:
 
 - [Ruff (backend)](quality/ruff-config.md)
 - [ESLint + Prettier (frontend)](quality/eslint-prettier-config.md)
@@ -235,18 +235,18 @@ Voir les details dans :
 
 ---
 
-## Claude Code Integration
+## Claude Code integration
 
-J'utilise Claude Code comme assistant de developpement. Voir :
+I use Claude Code as a development assistant. See:
 
 - [Claude Code Setup](claude-code/setup.md) — Configuration, CLAUDE.md, permissions
-- [Claude Code Workflows](claude-code/workflows.md) — Pipelines de validation automatises
+- [Claude Code Workflows](claude-code/workflows.md) — Automated validation pipelines
 
 ---
 
-## Configuration CI/CD
+## CI/CD configuration
 
-Voir les details dans :
+See details in:
 
 - [CI Pipeline](ci-cd/ci.md)
 - [Release Pipeline](ci-cd/release.md)
@@ -256,7 +256,7 @@ Voir les details dans :
 
 ## Versioning
 
-- **Semantic Versioning** : MAJOR.MINOR.PATCH
-- **Source de verite** : Git tag `vX.Y.Z`
-- **Injection automatique** : Vite `__APP_VERSION__` (frontend), `APP_VERSION` env var (backend)
-- **Changelog** : `CHANGELOG.md` au format Keep a Changelog
+- **Semantic Versioning**: MAJOR.MINOR.PATCH
+- **Source of truth**: Git tag `vX.Y.Z`
+- **Auto-injection**: Vite `__APP_VERSION__` (frontend), `APP_VERSION` env var (backend)
+- **Changelog**: `CHANGELOG.md` following Keep a Changelog format

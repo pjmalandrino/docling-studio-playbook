@@ -1,26 +1,26 @@
 # Claude Code Setup
 
-## CLAUDE.md par sous-projet
+## CLAUDE.md per subproject
 
-Chaque sous-projet (backend, frontend) a son propre `CLAUDE.md` qui definit :
+Each subproject (backend, frontend) has its own `CLAUDE.md` that defines:
 
-- La stack et les versions
-- Les commandes a utiliser (lint, test, format, build)
-- L'architecture et les conventions
-- Le pipeline de validation a respecter
+- Stack and versions
+- Commands to use (lint, test, format, build)
+- Architecture and conventions
+- Validation pipeline to follow
 
 ### Backend (`CLAUDE.md`)
 
 ```
 Stack: FastAPI + Python 3.12+ + Docling 2.x + aiosqlite + pytest
 Architecture: Hexagonal (Ports & Adapters)
-  - domain/      -> Le coeur : pure business logic, zero dep externe, definit les ports
-  - api/         -> Adapter IN : FastAPI routers, Pydantic schemas (camelCase DTOs)
-  - services/    -> Orchestration des use cases
-  - persistence/ -> Adapter OUT : Repository pattern (aiosqlite)
-  - infra/       -> Adapters OUT : converters, embeddings, rate limiter, settings
+  - domain/      -> The core: pure business logic, zero external deps, defines ports
+  - api/         -> Adapter IN: FastAPI routers, Pydantic schemas (camelCase DTOs)
+  - services/    -> Use case orchestration
+  - persistence/ -> Adapter OUT: Repository pattern (aiosqlite)
+  - infra/       -> Adapters OUT: converters, embeddings, rate limiter, settings
 
-Pipeline de validation:
+Validation pipeline:
   ruff check . --fix -> ruff format . -> ruff check . -> ruff format --check . -> pytest tests/ -v
 ```
 
@@ -29,38 +29,38 @@ Pipeline de validation:
 ```
 Stack: Vue 3 + TypeScript (strict) + Vite + Pinia + Vitest
 Architecture: Feature-based
-  - src/features/{name}/api/   -> Appels HTTP
-  - src/features/{name}/store/ -> State Pinia
-  - src/features/{name}/ui/    -> Composants Vue
-  - src/pages/                 -> Pages de route
-  - src/app/                   -> Shell applicatif
+  - src/features/{name}/api/   -> HTTP calls
+  - src/features/{name}/store/ -> Pinia state
+  - src/features/{name}/ui/    -> Vue components
+  - src/pages/                 -> Route pages
+  - src/app/                   -> Application shell
 
-Pipeline de validation:
+Validation pipeline:
   npm run lint:fix -> npm run format -> npm run lint -> npm run format:check -> npm run type-check -> npm run test:run
 
-Regles:
-  - Toujours DOMPurify pour le HTML, Marked pour le Markdown
-  - Tests colocates (*.test.ts)
+Rules:
+  - Always use DOMPurify for HTML, Marked for Markdown
+  - Colocated tests (*.test.ts)
   - Path alias @/ -> src/
 ```
 
 ## Permissions (settings.local.json)
 
-200+ regles de permission couvrant :
+200+ permission rules covering:
 
-| Categorie | Exemples |
-|-----------|----------|
-| Tests backend | `pytest tests/ -v`, `pytest tests/test_*.py -v` |
-| Tests frontend | `npx vitest run`, `npm run test:run` |
+| Category | Examples |
+|----------|----------|
+| Backend tests | `pytest tests/ -v`, `pytest tests/test_*.py -v` |
+| Frontend tests | `npx vitest run`, `npm run test:run` |
 | Lint/Format | `ruff check`, `ruff format`, `npx eslint`, `npx prettier` |
 | Type-check | `vue-tsc --noEmit` |
 | Git | `git status`, `git log`, `git diff`, `git commit`, `git push` |
 | Docker | `docker build` |
-| Web | WebSearch/WebFetch (GitHub, PyPI, docs officielles) |
+| Web | WebSearch/WebFetch (GitHub, PyPI, official docs) |
 
-## Launch Config (launch.json)
+## Launch config (launch.json)
 
-Configuration pour lancer le serveur de dev frontend directement depuis Claude Code :
+Configuration to launch the frontend dev server directly from Claude Code:
 
 ```json
 {
@@ -71,4 +71,4 @@ Configuration pour lancer le serveur de dev frontend directement depuis Claude C
 }
 ```
 
-Permet de tester les changements UI directement dans le navigateur pendant une session Claude Code.
+Allows testing UI changes directly in the browser during a Claude Code session.

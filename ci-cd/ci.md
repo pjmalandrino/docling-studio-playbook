@@ -1,11 +1,11 @@
 # CI Pipeline
 
-## Declencheurs
+## Triggers
 
-- **Push** sur `main`
-- **PR** vers `main` ou `release/**`
+- **Push** to `main`
+- **PR** to `main` or `release/**`
 
-Concurrency : annule les runs precedents sur la meme branche/PR.
+Concurrency: cancels previous runs on the same branch/PR.
 
 ## Jobs
 
@@ -15,7 +15,7 @@ Concurrency : annule les runs precedents sur la meme branche/PR.
 steps:
   - Checkout
   - Setup Python 3.12
-  - Install poppler-utils (systeme, pour pdf2image)
+  - Install poppler-utils (system, for pdf2image)
   - pip install requirements.txt + pytest + pytest-asyncio + httpx + ruff
   - ruff check .                    # Lint
   - pytest tests/ -v                # Tests
@@ -27,7 +27,7 @@ steps:
 steps:
   - Checkout
   - Setup Node 22
-  - npm ci                          # Install deterministe
+  - npm ci                          # Deterministic install
   - npx eslint src/                 # Lint
   - npm run type-check              # vue-tsc
   - npm run test:run                # Vitest
@@ -37,21 +37,21 @@ steps:
 ### E2E API (Karate)
 
 ```yaml
-needs: [backend, frontend]          # Attend que les 2 passent
+needs: [backend, frontend]          # Waits for both to pass
 steps:
   - Generate test PDFs
   - Start docker stack
   - Wait for health endpoint (30s retry)
-  - mvn test avec tags:
-    - @smoke sur PR vers main
-    - @smoke,@regression,@e2e sur PR vers release
+  - mvn test with tags:
+    - @smoke on PR to main
+    - @smoke,@regression,@e2e on PR to release
   - Upload reports (artifacts)
 ```
 
 ### E2E UI (Karate UI)
 
 ```yaml
-# Uniquement sur main (pas sur chaque PR)
+# Only on main (not every PR)
 steps:
   - Setup Chrome headless
   - Generate test PDFs
@@ -60,22 +60,22 @@ steps:
   - Upload reports (artifacts)
 ```
 
-## Philosophie
+## Philosophy
 
-- **PR vers main** — Feedback rapide (30s a 2min). Smoke tests uniquement. Attrape les regressions evidentes.
-- **PR vers release** — Validation exhaustive (5-10min). Inclut regression + E2E complets. Garantit la solidite du candidat release. Voir [release gate](release-gate.md).
-- **Push main** — Tests UI critiques en plus, car main doit rester stable.
+- **PR to main** — Fast feedback (30s to 2min). Smoke tests only. Catches obvious regressions.
+- **PR to release** — Exhaustive validation (5-10min). Includes regression + full E2E. Ensures release candidate is solid. See [release gate](release-gate.md).
+- **Push to main** — Critical UI tests added, because main must stay stable.
 
-## Matrice de quand quoi tourne
+## Matrix: what runs when
 
-| Evenement | Backend | Frontend | E2E API | E2E UI |
-|-----------|---------|----------|---------|--------|
+| Event | Backend | Frontend | E2E API | E2E UI |
+|-------|---------|----------|---------|--------|
 | PR -> main | lint + tests | lint + types + tests + build | @smoke | — |
 | PR -> release | lint + tests | lint + types + tests + build | @smoke + @regression + @e2e | — |
 | Push main | lint + tests | lint + types + tests + build | @smoke | @critical |
 
-## Voir aussi
+## See also
 
-- [Release gate](release-gate.md) — Validation renforcee sur les PR release
-- [Release pipeline](release.md) — Build Docker declenche par les tags
-- [Testing strategy](../quality/testing-strategy.md) — Pyramide de tests et conventions
+- [Release gate](release-gate.md) — Stricter validation on release PRs
+- [Release pipeline](release.md) — Docker build triggered by tags
+- [Testing strategy](../quality/testing-strategy.md) — Test pyramid and conventions

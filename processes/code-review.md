@@ -1,45 +1,45 @@
 # Code Review Checklist
 
-## Avant de soumettre la PR
+## Before submitting the PR
 
-- [ ] Branch nommee correctement (`feature/`, `fix/`, `hotfix/`)
-- [ ] Commits en Conventional Commits
-- [ ] Tests ajoutes/mis a jour
-- [ ] Tous les tests passent
-- [ ] Linting passe (ruff / eslint)
-- [ ] `CHANGELOG.md` mis a jour
-- [ ] Documentation mise a jour si necessaire
-- [ ] Aucun secret commite
+- [ ] Branch named correctly (`feature/`, `fix/`, `hotfix/`)
+- [ ] Commits follow Conventional Commits
+- [ ] Tests added/updated
+- [ ] All tests pass
+- [ ] Linting passes (ruff / eslint)
+- [ ] `CHANGELOG.md` updated
+- [ ] Documentation updated if needed
+- [ ] No secrets committed
 
-## Points de revue
+## Review points
 
-### Fonctionnel
-- La feature fait ce qui est demande
-- Les cas limites sont geres
-- Le comportement est coherent avec le reste de l'app
+### Functional
+- Feature does what is requested
+- Edge cases are handled
+- Behavior is consistent with the rest of the app
 
-### Technique
-- Respect de l'architecture hexagonale (domain ne depend de rien, adapters implementent les ports)
-- Pas de duplication de logique metier
-- Les DTOs sont correctement separes des modeles domaine
-- Les erreurs sont gerees proprement (pas de `pass` silencieux)
+### Technical
+- Respects hexagonal architecture (domain depends on nothing, adapters implement ports)
+- No duplication of business logic
+- DTOs are properly separated from domain models
+- Errors are handled cleanly (no silent `pass`)
 
-### Securite
-- DOMPurify pour tout HTML dynamique (frontend)
-- Validation des inputs au niveau API
-- Pas de secrets en dur
-- Les uploads sont valides (type, taille)
+### Security
+- DOMPurify for all dynamic HTML (frontend)
+- Input validation at API level
+- No hardcoded secrets
+- Uploads are validated (type, size)
 
 ### Performance
-- Pas de requete N+1
-- Les operations lourdes sont async
-- Le rate limiting est en place
+- No N+1 queries
+- Heavy operations are async
+- Rate limiting is in place
 
-## Template PR
+## PR template
 
-Chaque PR utilise le template standardise avec :
+Every PR uses the standardized template with:
 - Type (Feature, Bug fix, Hotfix, Documentation, Refactoring, CI/CD)
-- Resume en 1-3 phrases
-- Issues liees
-- Checklist de validation
-- Screenshots/preuves si applicable
+- Summary in 1-3 sentences
+- Related issues
+- Validation checklist
+- Screenshots/evidence if applicable

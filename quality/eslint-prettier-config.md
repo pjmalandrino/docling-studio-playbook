@@ -8,17 +8,17 @@
 - TypeScript rules (@typescript-eslint)
 - Vue plugin rules
 
-// Regles cles
+// Key rules
 "no-console": "warn"           // allow: ['warn', 'error']
 "no-debugger": "error"
-"no-unused-vars": "off"        // gere par TypeScript
+"no-unused-vars": "off"        // handled by TypeScript
 "@typescript-eslint/no-unused-vars": "error"  // ignore ^_ prefix
 "@typescript-eslint/no-explicit-any": "off"
 "vue/multi-word-component-names": "off"
-// Regles de formatage Vue desactivees (Prettier gere)
+// Vue formatting rules disabled (Prettier handles them)
 ```
 
-**Philosophie** : ESLint pour la logique, Prettier pour le formatage. Aucun conflit entre les deux.
+**Philosophy**: ESLint for logic, Prettier for formatting. No conflicts between the two.
 
 ## Prettier
 
@@ -34,16 +34,16 @@
 }
 ```
 
-## Commandes
+## Commands
 
 ```bash
-npm run lint              # Verifier ESLint
-npm run lint:fix          # Corriger ESLint
-npm run format            # Formater Prettier
-npm run format:check      # Verifier Prettier
+npm run lint              # Check ESLint
+npm run lint:fix          # Fix ESLint
+npm run format            # Format with Prettier
+npm run format:check      # Verify Prettier
 ```
 
-## Pipeline de validation complete
+## Full validation pipeline
 
 ```bash
 npm run lint:fix \
@@ -56,6 +56,6 @@ npm run lint:fix \
 
 ## TypeScript
 
-- Mode **strict** active
-- `vue-tsc --noEmit` pour la verification de types
-- Path alias : `@/` -> `src/`
+- **Strict** mode enabled
+- `vue-tsc --noEmit` for type checking
+- Path alias: `@/` -> `src/`

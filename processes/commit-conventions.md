@@ -1,6 +1,6 @@
 # Commit Conventions
 
-Convention : **Conventional Commits**
+Convention: **Conventional Commits**
 
 ## Format
 
@@ -16,28 +16,28 @@ Convention : **Conventional Commits**
 
 | Type | Usage |
 |------|-------|
-| `feat` | Nouvelle fonctionnalite |
-| `fix` | Correction de bug |
-| `docs` | Documentation uniquement |
-| `style` | Formatage (pas de changement de logique) |
-| `refactor` | Restructuration sans changement fonctionnel |
-| `test` | Ajout ou modification de tests |
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation only |
+| `style` | Formatting (no logic change) |
+| `refactor` | Code restructuring without functional change |
+| `test` | Adding or modifying tests |
 | `chore` | Dependencies, tooling, config |
-| `perf` | Amelioration de performance |
-| `ci` | Changements CI/CD |
+| `perf` | Performance improvement |
+| `ci` | CI/CD changes |
 
-## Scopes utilises
+## Scopes used
 
 `api`, `domain`, `persistence`, `infra`, `upload`, `analysis`, `chunking`, `bbox`, `e2e`, `docker`, `ci`
 
-## Regles
+## Rules
 
-1. Imperatif, minuscule, pas de point final, max 72 caracteres
-2. Le body explique le **pourquoi**, pas le **quoi**
-3. Breaking changes : footer `BREAKING CHANGE:` ou `!` apres le type
-4. References issues : `Closes #123`, `Fixes #456`
+1. Imperative mood, lowercase, no trailing period, max 72 characters
+2. Body explains **why**, not **what**
+3. Breaking changes: `BREAKING CHANGE:` footer or `!` after type
+4. Issue references: `Closes #123`, `Fixes #456`
 
-## Exemples
+## Examples
 
 ```
 feat(analysis): add batch progress tracking

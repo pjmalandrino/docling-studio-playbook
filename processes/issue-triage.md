@@ -1,30 +1,30 @@
 # Issue Triage
 
-## Labels de classification
+## Classification labels
 
 | Label | Description |
 |-------|-------------|
-| `bug` | Comportement incorrect |
-| `feature` | Nouvelle fonctionnalite |
-| `enhancement` | Amelioration d'une feature existante |
-| `documentation` | Mise a jour de la doc |
-| `good first issue` | Accessible aux nouveaux contributeurs |
-| `help wanted` | Contribution externe bienvenue |
-| `wontfix` | Ne sera pas traite |
-| `duplicate` | Doublon d'une issue existante |
+| `bug` | Incorrect behavior |
+| `feature` | New functionality |
+| `enhancement` | Improvement to existing feature |
+| `documentation` | Documentation update |
+| `good first issue` | Accessible to new contributors |
+| `help wanted` | External contribution welcome |
+| `wontfix` | Will not be addressed |
+| `duplicate` | Duplicate of an existing issue |
 
-## Priorisation
+## Prioritization
 
-| Priorite | Critere | Traitement |
-|----------|---------|------------|
-| **P1** | Bloquant, bug critique | Sprint en cours |
-| **P2** | Important, impact utilisateur | Prochain sprint |
+| Priority | Criteria | Treatment |
+|----------|----------|-----------|
+| **P1** | Blocking, critical bug | Current sprint |
+| **P2** | Important, user impact | Next sprint |
 | **P3** | Nice-to-have | Backlog |
-| **P4** | Cosmetique, tres faible impact | Quand possible |
+| **P4** | Cosmetic, very low impact | When possible |
 
 ## Workflow
 
-1. **Nouvelle issue** : lire, classifier (bug/feature/etc.), assigner la priorite
-2. **Doublon** : lier a l'issue existante, fermer avec label `duplicate`
-3. **Informations manquantes** : demander des details, ajouter label `needs-info`
-4. **Prete** : assigner au sprint selon la priorite
+1. **New issue**: read, classify (bug/feature/etc.), assign priority
+2. **Duplicate**: link to existing issue, close with `duplicate` label
+3. **Missing information**: request details, add `needs-info` label
+4. **Ready**: assign to sprint based on priority

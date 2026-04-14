@@ -19,40 +19,40 @@ quote-style = "double"
 indent-style = "space"
 ```
 
-## Regles activees
+## Enabled rules
 
-| Code | Set | Ce que ca couvre |
-|------|-----|-----------------|
-| `E` | pycodestyle errors | Erreurs de style PEP 8 |
-| `W` | pycodestyle warnings | Avertissements PEP 8 |
-| `F` | pyflakes | Variables inutilisees, imports manquants |
-| `I` | isort | Tri des imports |
-| `N` | pep8-naming | Conventions de nommage |
-| `UP` | pyupgrade | Modernisation syntaxe Python |
-| `B` | flake8-bugbear | Bugs courants et anti-patterns |
-| `SIM` | flake8-simplify | Simplifications de code |
-| `TCH` | flake8-type-checking | Imports type-checking-only |
-| `RUF` | ruff-specific | Regles propres a Ruff |
+| Code | Set | What it covers |
+|------|-----|----------------|
+| `E` | pycodestyle errors | PEP 8 style errors |
+| `W` | pycodestyle warnings | PEP 8 warnings |
+| `F` | pyflakes | Unused variables, missing imports |
+| `I` | isort | Import sorting |
+| `N` | pep8-naming | Naming conventions |
+| `UP` | pyupgrade | Python syntax modernization |
+| `B` | flake8-bugbear | Common bugs and anti-patterns |
+| `SIM` | flake8-simplify | Code simplifications |
+| `TCH` | flake8-type-checking | Type-checking-only imports |
+| `RUF` | ruff-specific | Ruff's own rules |
 
-## Exceptions justifiees
+## Justified exceptions
 
-| Code | Raison |
+| Code | Reason |
 |------|--------|
-| `E501` | Longueur de ligne geree par le formateur |
-| `B008` | FastAPI `Depends()` dans les parametres par defaut |
-| `N815` | camelCase autorise dans les schemas Pydantic (DTOs frontend) |
-| `TC003` | `datetime` importe au runtime (requis par Pydantic) |
+| `E501` | Line length handled by the formatter |
+| `B008` | FastAPI `Depends()` in default parameters |
+| `N815` | camelCase allowed in Pydantic schemas (frontend DTOs) |
+| `TC003` | `datetime` imported at runtime (required by Pydantic) |
 
-## Commandes
+## Commands
 
 ```bash
-ruff check .             # Verifier
-ruff check . --fix       # Corriger automatiquement
-ruff format .            # Formater
-ruff format --check .    # Verifier le formatage
+ruff check .             # Check
+ruff check . --fix       # Auto-fix
+ruff format .            # Format
+ruff format --check .    # Verify formatting
 ```
 
-## Pipeline de validation complete
+## Full validation pipeline
 
 ```bash
 ruff check . --fix \

@@ -1,35 +1,35 @@
 # Release Gate
 
-## Objectif
+## Purpose
 
-Validation automatique declenchee sur les PR vers les branches `release/**`.
-S'assure que tout est vert avant le merge vers main.
+Automatic validation triggered on PRs to `release/**` branches.
+Ensures everything is green before merging to main.
 
-## Ce qui est execute
+## What runs
 
-1. **Lint backend** — `ruff check .`
-2. **Lint frontend** — `npx eslint src/`
-3. **Tests backend** — `pytest tests/ -v`
-4. **Tests frontend** — `npm run type-check && npm run test:run`
-5. **Build Docker** — Smoke test du build
-6. **E2E complets** — `@smoke` + `@regression` + `@e2e`
+1. **Backend lint** — `ruff check .`
+2. **Frontend lint** — `npx eslint src/`
+3. **Backend tests** — `pytest tests/ -v`
+4. **Frontend tests** — `npm run type-check && npm run test:run`
+5. **Docker build** — Build smoke test
+6. **Full E2E** — `@smoke` + `@regression` + `@e2e`
 
-## Difference avec la CI standard
+## Difference from standard CI
 
 | Check | CI (PR -> main) | Release Gate (PR -> release) |
 |-------|-----------------|------------------------------|
-| Lint | oui | oui |
-| Unit tests | oui | oui |
-| Build | oui | oui |
-| E2E @smoke | oui | oui |
-| E2E @regression | — | oui |
-| E2E @e2e | — | oui |
+| Lint | yes | yes |
+| Unit tests | yes | yes |
+| Build | yes | yes |
+| E2E @smoke | yes | yes |
+| E2E @regression | — | yes |
+| E2E @e2e | — | yes |
 
-Le release gate est plus strict : il inclut les tests E2E complets que la CI standard ne lance pas sur chaque PR.
+The release gate is stricter: it includes full E2E tests that standard CI does not run on every PR.
 
-## Voir aussi
+## See also
 
-- [CI standard](ci.md) — Pipeline sur chaque PR
-- [Release pipeline](release.md) — Build Docker apres le tag
-- [Process de release](../processes/release.md) — Etapes manuelles avant et apres
-- [Audit qualite](../processes/audit.md) — Framework d'audit complet (12 axes)
+- [Standard CI](ci.md) — Pipeline on every PR
+- [Release pipeline](release.md) — Docker build after tagging
+- [Release process](../processes/release.md) — Manual steps before and after
+- [Quality audit](../processes/audit.md) — Full audit framework (12 axes)

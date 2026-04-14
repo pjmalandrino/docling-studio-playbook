@@ -1,46 +1,46 @@
 # E2E Test Conventions
 
-## Regles d'or
+## Golden rules
 
-### 1. Jamais de `Thread.sleep()` ou `delay()`
+### 1. Never use `Thread.sleep()` or `delay()`
 
 ```javascript
-// MAL
+// BAD
 * delay(3000)
 * match response == ...
 
-// BIEN
+// GOOD
 * retry(10, 1000).get('/api/status')
 * match response.status == 'done'
 ```
 
-### 2. Utiliser `karate.sizeOf()` pour compter les elements
+### 2. Use `karate.sizeOf()` to count elements
 
 ```javascript
-// MAL
+// BAD
 * def count = locateAll('.item').length
 
-// BIEN
+// GOOD
 * def count = karate.sizeOf(locateAll('.item'))
 ```
 
-### 3. Selecteurs `data-e2e` uniquement (pas de classes CSS)
+### 3. `data-e2e` selectors only (no CSS classes)
 
 ```javascript
-// MAL
+// BAD
 * click('.btn-primary')
 
-// BIEN
+// GOOD
 * click('[data-e2e="upload-button"]')
 ```
 
-### 4. Setup via API, verification via UI
+### 4. Setup via API, verify via UI
 
 ```javascript
-// Setup rapide via API
+// Fast setup via API
 * call read('classpath:common/helpers/upload-document.feature')
 
-// Verification via UI
+// Verify via UI
 * driver baseUrl + '/documents'
 * waitFor('[data-e2e="document-list"]')
 * match text('[data-e2e="document-title"]') == 'test.pdf'
@@ -49,21 +49,21 @@
 * call read('classpath:common/helpers/cleanup.feature')
 ```
 
-### 5. `optional()` pour les elements conditionnels
+### 5. `optional()` for conditional elements
 
 ```javascript
-// Element qui peut ne pas etre present
+// Element that may not be present
 * optional('[data-e2e="dismiss-banner"]').click()
 ```
 
-### 6. Extraire les patterns repetes dans `common/helpers/`
+### 6. Extract repeated patterns into `common/helpers/`
 
-Chaque helper est un `.feature` callable :
-- `upload-document.feature` — Upload un PDF de test
-- `run-analysis.feature` — Lance une analyse et attend la fin
-- `cleanup.feature` — Supprime les donnees de test
+Each helper is a callable `.feature`:
+- `upload-document.feature` — Upload a test PDF
+- `run-analysis.feature` — Run an analysis and wait for completion
+- `cleanup.feature` — Delete test data
 
-## Structure des tests
+## Test structure
 
 ```
 e2e/
@@ -71,11 +71,11 @@ e2e/
     src/test/resources/
       karate-config.js          # Base URL, timeouts
       common/
-        helpers/                # Features reutilisables
+        helpers/                # Reusable features
         data/
-          schemas/              # JSON schemas de validation
-          test-cases/           # Donnees de test
-          generated/            # PDFs generes
+          schemas/              # JSON validation schemas
+          test-cases/           # Test data
+          generated/            # Generated PDFs
       health/                   # @smoke
       documents/                # @regression
       analyses/                 # @regression
@@ -83,7 +83,7 @@ e2e/
   ui/
     src/test/resources/
       karate-config.js          # URLs, Chrome headless config
-      common/helpers/           # Helpers UI
+      common/helpers/           # UI helpers
       documents/                # @critical @ui
       analyses/                 # @critical @ui
       navigation/               # @ui

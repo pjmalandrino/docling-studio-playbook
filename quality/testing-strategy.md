@@ -1,43 +1,43 @@
 # Testing Strategy
 
-## Pyramide de tests
+## Test pyramid
 
 ```
         /  E2E UI  \          <- Karate UI (@critical, @ui)
        / E2E API    \         <- Karate API (@smoke, @regression, @e2e)
-      / Integration   \       <- pytest, Vitest (composants + stores)
-     /   Unit tests     \     <- pytest, Vitest (fonctions pures)
+      / Integration   \       <- pytest, Vitest (components + stores)
+     /   Unit tests     \     <- pytest, Vitest (pure functions)
     /____________________\
 ```
 
 ## Backend (pytest)
 
-| Categorie | Fichiers | Couverture |
-|-----------|----------|------------|
-| Endpoints API | `test_api_endpoints.py`, `test_ingestion_api.py` | Routes, validation, erreurs HTTP |
-| Services | `test_analysis_service.py`, `test_document_service.py`, `test_ingestion_service.py` | Orchestration, jobs async |
-| Domain | `test_models.py`, `test_schemas.py`, `test_bbox.py`, `test_chunking.py` | Logique metier pure |
-| Persistence | `test_repos.py` | CRUD repository |
-| Infra | `test_serve_converter.py`, `test_embedding_client.py`, `test_opensearch_store.py` | Adapters externes |
-| Config | `test_settings.py`, `test_pipeline_options.py` | Chargement config |
-| Resilience | `test_robustness.py`, `test_rate_limiter.py` | Cas limites, erreurs |
+| Category | Files | Coverage |
+|----------|-------|----------|
+| API endpoints | `test_api_endpoints.py`, `test_ingestion_api.py` | Routes, validation, HTTP errors |
+| Services | `test_analysis_service.py`, `test_document_service.py`, `test_ingestion_service.py` | Orchestration, async jobs |
+| Domain | `test_models.py`, `test_schemas.py`, `test_bbox.py`, `test_chunking.py` | Pure business logic |
+| Persistence | `test_repos.py` | Repository CRUD |
+| Infra | `test_serve_converter.py`, `test_embedding_client.py`, `test_opensearch_store.py` | External adapters |
+| Config | `test_settings.py`, `test_pipeline_options.py` | Configuration loading |
+| Resilience | `test_robustness.py`, `test_rate_limiter.py` | Edge cases, error handling |
 
-**Config** : `pytest.ini` avec `asyncio_mode = auto` (tout est async par defaut)
+**Config**: `pytest.ini` with `asyncio_mode = auto` (everything is async by default)
 
-**Commandes** :
+**Commands**:
 ```bash
-pytest tests/ -v                    # Tous les tests
-pytest tests/test_analysis_service.py -v  # Un fichier
-pytest tests/ -v -k "test_upload"   # Par nom
+pytest tests/ -v                    # All tests
+pytest tests/test_analysis_service.py -v  # Single file
+pytest tests/ -v -k "test_upload"   # By name
 ```
 
 ## Frontend (Vitest)
 
-- Tests colocates avec le code source (`*.test.ts`)
-- Framework : Vitest (compatible Jest API)
-- Mocker integre pour les mocks
+- Tests colocated with source code (`*.test.ts`)
+- Framework: Vitest (Jest API compatible)
+- Built-in mocker for mocks
 
-**Commandes** :
+**Commands**:
 ```bash
 npm run test:run    # Single run (CI)
 npm run test        # Watch mode (dev)
@@ -45,11 +45,11 @@ npm run test        # Watch mode (dev)
 
 ## E2E API (Karate)
 
-| Tag | Scope | Duree | Quand |
-|-----|-------|-------|-------|
-| `@smoke` | Health checks | ~30s | Chaque PR |
-| `@regression` | Couverture API complete | ~2min | PR vers release |
-| `@e2e` | Workflows cross-domain | ~5min | PR vers release |
+| Tag | Scope | Duration | When |
+|-----|-------|----------|------|
+| `@smoke` | Health checks | ~30s | Every PR |
+| `@regression` | Full API coverage | ~2min | PR to release |
+| `@e2e` | Cross-domain workflows | ~5min | PR to release |
 
 ```bash
 mvn test -f e2e/api/pom.xml -Dkarate.options="--tags @smoke"
@@ -57,17 +57,17 @@ mvn test -f e2e/api/pom.xml -Dkarate.options="--tags @smoke"
 
 ## E2E UI (Karate UI)
 
-| Tag | Scope | Duree | Quand |
-|-----|-------|-------|-------|
-| `@critical` | 5 parcours coeur | ~1.5min | CI sur main |
-| `@ui` | Toutes les features UI | ~3min | Dev local |
+| Tag | Scope | Duration | When |
+|-----|-------|----------|------|
+| `@critical` | 5 core journeys | ~1.5min | CI on main |
+| `@ui` | All UI features | ~3min | Local dev |
 
 ```bash
 mvn test -f e2e/ui/pom.xml -Dkarate.options="--tags @critical"
 ```
 
-## Donnees de test
+## Test data
 
 ```bash
-python e2e/generate-test-data.py    # Genere les PDFs de test (a lancer une fois)
+python e2e/generate-test-data.py    # Generate test PDFs (run once)
 ```

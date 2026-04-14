@@ -1,44 +1,44 @@
 # Security Response
 
-## Quand activer
+## When to activate
 
-- Vulnerabilite decouverte dans une dependance
-- Faille signalee par un audit ou un contributeur
-- Alerte Dependabot / GitHub Advisory
+- Vulnerability discovered in a dependency
+- Flaw reported by an audit or contributor
+- Dependabot / GitHub Advisory alert
 
-## Etapes
+## Steps
 
-### 1. Evaluation
+### 1. Assessment
 
-- Determiner la severite (CVSS si disponible)
-- Identifier les composants affectes
-- Evaluer l'exploitabilite dans le contexte du projet
+- Determine severity (CVSS if available)
+- Identify affected components
+- Evaluate exploitability in the project context
 
 ### 2. Containment
 
-- Si la faille est exploitable en production : **rollback immediat**
-- Si non exploitable immediatement : planifier le fix
+- If the flaw is exploitable in production: **immediate rollback**
+- If not immediately exploitable: schedule the fix
 
 ### 3. Fix
 
-- Mettre a jour la dependance vulnerable
-- Si pas de patch disponible : workaround ou desactivation de la feature
-- Suivre le processus hotfix standard
+- Update the vulnerable dependency
+- If no patch available: workaround or feature deactivation
+- Follow the standard hotfix process
 
 ### 4. Verification
 
-- Lancer la suite de tests complete
-- Verifier que le vecteur d'attaque est ferme
+- Run the full test suite
+- Verify the attack vector is closed
 
 ### 5. Disclosure
 
-- Mettre a jour le `CHANGELOG.md` avec la mention de securite
-- Si applicable : coordonner avec l'upstream
+- Update `CHANGELOG.md` with the security mention
+- If applicable: coordinate with upstream
 
-## Bonnes pratiques permanentes
+## Permanent best practices
 
-- DOMPurify pour tout HTML dynamique (frontend)
-- Validation des inputs au niveau API
-- Rate limiting en place
-- Pas de secrets dans le code (`.env` + `.gitignore`)
-- Uploads valides (type MIME, taille max configurable)
+- DOMPurify for all dynamic HTML (frontend)
+- Input validation at API level
+- Rate limiting in place
+- No secrets in code (`.env` + `.gitignore`)
+- Uploads validated (MIME type, configurable max size)

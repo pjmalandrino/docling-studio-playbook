@@ -1,57 +1,57 @@
 # Incident Response
 
-## Severite
+## Severity
 
-| Niveau | Critere | Temps de reponse |
-|--------|---------|-----------------|
-| **P1 - Critique** | Service down, perte de donnees | Immediat |
-| **P2 - Majeur** | Feature principale cassee | < 4h |
-| **P3 - Mineur** | Feature secondaire degradee | < 24h |
-| **P4 - Cosmetique** | UI glitch, message d'erreur | Prochain sprint |
+| Level | Criteria | Response time |
+|-------|----------|---------------|
+| **P1 — Critical** | Service down, data loss | Immediate |
+| **P2 — Major** | Core feature broken | < 4h |
+| **P3 — Minor** | Secondary feature degraded | < 24h |
+| **P4 — Cosmetic** | UI glitch, error message | Next sprint |
 
 ## Workflow
 
-### 1. Detection et triage
+### 1. Detection and triage
 
-- Identifier la severite
-- Assigner un responsable
-- Communiquer le statut
+- Identify severity
+- Assign an owner
+- Communicate status
 
 ### 2. Investigation
 
-- Consulter les logs applicatifs
-- Verifier les metriques (si monitoring en place)
-- Reproduire le probleme en local si possible
+- Check application logs
+- Review metrics (if monitoring is in place)
+- Reproduce the issue locally if possible
 
 ### 3. Resolution
 
-- **P1** : Rollback immediat si le fix n'est pas evident
-- **P2-P3** : Hotfix suivant le processus standard
-- **P4** : Issue creee, planifiee dans le backlog
+- **P1**: Immediate rollback if fix is not obvious
+- **P2-P3**: Hotfix following the standard process
+- **P4**: Issue created, scheduled in backlog
 
 ### 4. Post-mortem
 
-Pour tout incident P1/P2 :
+For any P1/P2 incident:
 
 ```markdown
-## Post-mortem : [Titre]
+## Post-mortem: [Title]
 
 ### Timeline
 - HH:MM — Detection
-- HH:MM — Investigation demarree
-- HH:MM — Cause identifiee
-- HH:MM — Fix deploye
-- HH:MM — Confirmation resolution
+- HH:MM — Investigation started
+- HH:MM — Root cause identified
+- HH:MM — Fix deployed
+- HH:MM — Resolution confirmed
 
-### Cause racine
+### Root cause
 ...
 
 ### Impact
-- Duree : X heures
-- Utilisateurs affectes : ...
+- Duration: X hours
+- Affected users: ...
 
-### Actions correctives
-- [ ] Fix technique
-- [ ] Test supplementaire
-- [ ] Amelioration monitoring
+### Corrective actions
+- [ ] Technical fix
+- [ ] Additional test
+- [ ] Monitoring improvement
 ```

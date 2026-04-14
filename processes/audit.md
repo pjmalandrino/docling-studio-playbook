@@ -1,160 +1,160 @@
-# Audit Qualite
+# Quality Audit
 
-## Vue d'ensemble
+## Overview
 
-Framework d'audit complet avec **12 axes**, chacun etant une checklist ponderee.
-L'audit est execute avant chaque merge de branche `release/*` vers `main`.
+Complete audit framework with **12 axes**, each being a weighted checklist.
+The audit runs before every merge of a `release/*` branch into `main`.
 
-## Les 12 axes d'audit
+## The 12 audit axes
 
-| # | Axe | Focus |
-|---|-----|-------|
-| 01 | **Architecture Hexagonale** | Isolation du domaine, ports & adapters, pas de fuite de couche |
+| # | Axis | Focus |
+|---|------|-------|
+| 01 | **Hexagonal Architecture** | Domain isolation, ports & adapters, no layer leaks |
 | 02 | **DDD** | Bounded contexts, value objects, ubiquitous language |
-| 03 | **Clean Code** | Nommage, taille de fichiers, lisibilite |
-| 04 | **KISS** | Simplicite, pas d'over-engineering |
-| 05 | **DRY** | Detection de duplication, magic numbers |
-| 06 | **SOLID** | Les 5 principes SOLID |
-| 07 | **Decouplage** | Frontend/backend, contrats, ports & adapters |
-| 08 | **Securite** | OWASP, secrets, injection, CORS |
-| 09 | **Tests** | Couverture, qualite, determinisme, E2E |
+| 03 | **Clean Code** | Naming, file size, readability |
+| 04 | **KISS** | Simplicity, no over-engineering |
+| 05 | **DRY** | Duplication detection, magic numbers |
+| 06 | **SOLID** | The 5 SOLID principles |
+| 07 | **Decoupling** | Frontend/backend, contracts, ports & adapters |
+| 08 | **Security** | OWASP, secrets, injection, CORS |
+| 09 | **Tests** | Coverage, quality, determinism, E2E |
 | 10 | **CI / Build** | Pipeline, Docker health checks |
-| 11 | **Documentation** | CHANGELOG, TODOs avec refs issues |
-| 12 | **Performance** | Requetes N+1, async I/O, memoire |
+| 11 | **Documentation** | CHANGELOG, TODOs with issue refs |
+| 12 | **Performance** | N+1 queries, async I/O, memory |
 
-## Modes d'invocation
+## Invocation modes
 
-| Mode | Quand | Resultat |
-|------|-------|----------|
-| **Full Release Audit** | Avant merge release -> main | 12 rapports + summary |
-| **Single Audit** | Check cible sur un axe | 1 rapport |
-| **Re-Audit** | Apres correction de CRIT/MAJ | Rapport mis a jour |
-| **Automated Checks** | Validation rapide pre-audit | PASS/WARN/FAIL par axe |
+| Mode | When | Output |
+|------|------|--------|
+| **Full Release Audit** | Before merge release -> main | 12 reports + summary |
+| **Single Audit** | Targeted check on one axis | 1 report |
+| **Re-Audit** | After fixing CRIT/MAJ | Updated report |
+| **Automated Checks** | Quick pre-audit validation | PASS/WARN/FAIL per axis |
 
-## Niveaux de criticite
+## Severity levels
 
-| Tag | Signification | Impact |
-|-----|---------------|--------|
-| `[CRIT]` | Bloquant (securite, corruption de donnees, violation architecture majeure) | **NO-GO absolu** |
-| `[MAJ]` | Significatif (couplage fort, gap de test critique) | A corriger avant release |
-| `[MIN]` | Gap qualite (nommage, taille fichier) | Amelioration recommandee |
-| `[INFO]` | Observation / piste d'amelioration | Informatif |
+| Tag | Meaning | Impact |
+|-----|---------|--------|
+| `[CRIT]` | Blocking (security, data corruption, major architecture violation) | **Absolute NO-GO** |
+| `[MAJ]` | Significant (strong coupling, critical test gap) | Must fix before release |
+| `[MIN]` | Quality gap (naming, file size) | Recommended improvement |
+| `[INFO]` | Observation / improvement track | Informational |
 
 ## Scoring
 
-### Calcul par axe
+### Per-axis calculation
 
 ```
-score = (somme des poids des items OK / poids total) * 100
+score = (sum of passing item weights / total weights) * 100
 ```
 
-### Seuils de decision
+### Decision thresholds
 
 | Score | Verdict | Condition |
 |-------|---------|-----------|
-| >= 80 | **GO** | Tous les checks passent |
-| 60-79 | **GO CONDITIONAL** | 0 CRIT + plan de remediation pour les MAJ |
-| < 60 | **NO-GO** | Corrections obligatoires |
+| >= 80 | **GO** | All checks pass |
+| 60-79 | **GO CONDITIONAL** | 0 CRIT + remediation plan for MAJ |
+| < 60 | **NO-GO** | Mandatory corrections |
 
-**Regle absolue** : tout `[CRIT]` = **NO-GO**, quel que soit le score.
+**Absolute rule**: any `[CRIT]` = **NO-GO**, regardless of score.
 
-## Automated Checks (script)
+## Automated checks (script)
 
-Script bash qui execute les verifications automatisables pour les 12 axes :
+Bash script that runs automatable verifications across all 12 axes:
 
 ```bash
-# Ce que le script verifie :
-- Domain layer : pas d'imports interdits (FastAPI, SQLite, etc.)
-- Taille des fichiers : warning > 300 lignes
-- Magic numbers : detection de valeurs en dur
-- Secrets : scan de patterns (password, token, secret)
-- SQL injection : detection de patterns dangereux
-- CORS : configuration presente
-- Tests : fichiers de test existants pour chaque module
-- Documentation : CHANGELOG.md et README.md presents
-- Requetes N+1 : detection de patterns suspects
+# What the script checks:
+- Domain layer: no forbidden imports (FastAPI, SQLite, etc.)
+- File size: warning > 300 lines
+- Magic numbers: hardcoded value detection
+- Secrets: pattern scanning (password, token, secret)
+- SQL injection: dangerous pattern detection
+- CORS: configuration present
+- Tests: test files exist for each module
+- Documentation: CHANGELOG.md and README.md present
+- N+1 queries: suspicious pattern detection
 
-# Sortie
-- PASS (vert) / WARN (jaune) / FAIL (rouge) par check
-- Exit code 1 si au moins un FAIL
+# Output
+- PASS (green) / WARN (yellow) / FAIL (red) per check
+- Exit code 1 if any FAIL
 ```
 
-## Integration CI/CD (Release Gate)
+## CI/CD integration (Release Gate)
 
-Le release gate execute l'audit en 4 phases :
+The release gate runs the audit in 4 phases:
 
-### Phase 1 — Checks paralleles (bloquant)
+### Phase 1 — Parallel checks (blocking)
 
 - Lint & type-check (ruff, ESLint, vue-tsc)
-- Tests unitaires (pytest, Vitest)
-- **Audit des dependances** (`pip-audit` + `npm audit`) — bloquant sur CRITICAL
-- **Audit checks** (script automatise) — bloquant
+- Unit tests (pytest, Vitest)
+- **Dependency audit** (`pip-audit` + `npm audit`) — blocking on CRITICAL
+- **Audit checks** (automated script) — blocking
 
-### Phase 2 — Docker (bloquant)
+### Phase 2 — Docker (blocking)
 
-- Build Docker (targets remote + local)
+- Docker build (targets remote + local)
 - Smoke test (`/api/health`)
-- **Scan d'image Trivy** — bloquant sur CRITICAL, warning sur HIGH
-- Check de taille d'image (delta vs precedente)
+- **Trivy image scan** — blocking on CRITICAL, warning on HIGH
+- Image size check (delta vs previous)
 
 ### Phase 3 — E2E
 
-- E2E API (scope complet : @smoke + @regression + @e2e)
-- E2E UI (@critical uniquement)
+- E2E API (full scope: @smoke + @regression + @e2e)
+- E2E UI (@critical only)
 
 ### Phase 4 — Verdict
 
-Commentaire automatique sur la PR avec verdict :
+Automatic comment on the PR with verdict:
 
-| Verdict | Signification |
-|---------|---------------|
-| **GO** | Tous les checks passent |
-| **GO CONDITIONAL** | Bloquants OK, mais warnings sur deps/audit |
-| **NO-GO** | Au moins un check bloquant echoue |
+| Verdict | Meaning |
+|---------|---------|
+| **GO** | All checks pass |
+| **GO CONDITIONAL** | Blocking checks OK, but warnings on deps/audit |
+| **NO-GO** | At least one blocking check failed |
 
-## Rapports
+## Reports
 
 ### Structure
 
 ```
 docs/audit/
-  master.md                          # Document d'orchestration central
+  master.md                          # Central orchestration document
   audits/
-    01-clean-architecture.md         # Template checklist
+    01-hexagonal-architecture.md     # Checklist template
     02-ddd.md
     03-clean-code.md
     ...
     12-performance.md
   reports/
     release-X.Y.Z/
-      01-clean-architecture.md       # Rapport rempli
+      01-hexagonal-architecture.md   # Filled report
       02-ddd.md
       ...
       12-performance.md
-      summary.md                     # Synthese + verdict final
+      summary.md                     # Summary + final verdict
 ```
 
-### Contenu d'un rapport
+### Report contents
 
-Chaque rapport individuel contient :
-- Table de score de conformite
-- Findings par severite (CRIT/MAJ/MIN/INFO)
-- Points positifs
-- Verdict partiel (GO/CONDITIONAL/NO-GO)
+Each individual report contains:
+- Compliance score table
+- Findings by severity (CRIT/MAJ/MIN/INFO)
+- Positive points
+- Partial verdict (GO/CONDITIONAL/NO-GO)
 
-Le **summary** consolide :
-- Les 12 scores
-- Le score pondere global
-- Les PRs de remediation mergees
-- Les issues MAJ restantes (priorisees pour le cycle suivant)
-- Le **verdict final**
+The **summary** consolidates:
+- All 12 scores
+- Weighted global score
+- Merged remediation PRs
+- Remaining MAJ issues (prioritized for next cycle)
+- The **final verdict**
 
-## Exemple reel
+## Real-world example
 
-Release 0.3.1 :
-- 12 audits executes
-- Score initial variable (56-100 selon les axes)
-- Score final : 95/100 (pondere)
-- 5 PRs de remediation mergees
-- 2 issues MAJOR restantes (planifiees cycle suivant)
-- **Verdict : GO**
+Release 0.3.1:
+- 12 audits executed
+- Initial scores variable (56-100 depending on axis)
+- Final score: 95/100 (weighted)
+- 5 remediation PRs merged
+- 2 MAJOR issues remaining (scheduled for next cycle)
+- **Verdict: GO**
