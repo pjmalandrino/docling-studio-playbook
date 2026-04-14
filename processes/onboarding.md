@@ -1,5 +1,7 @@
 # Onboarding
 
+> **When to use**: New contributor joining the project. Goal: first meaningful PR within a week.
+
 ## Prerequisites
 
 | Tool | Version |
@@ -77,9 +79,11 @@ docker compose -f docker-compose.dev.yml up
 
 1. This file (installation and commands)
 2. [Backend architecture](../README.md#backend-architecture-hexagonal--ports--adapters) — Understand the hexagonal pattern
-3. [Commit conventions](commit-conventions.md) — Before your first commit
-4. [Code review checklist](code-review.md) — What is expected in a PR
-5. [Testing strategy](../quality/testing-strategy.md) — What to test and how
+3. [Architecture checklist](../references/architecture-checklist.md) — Dependency rules and layer responsibilities
+4. [Commit conventions](commit-conventions.md) — Before your first commit
+5. [Code review checklist](code-review.md) — What is expected in a PR
+6. [Testing strategy](../quality/testing-strategy.md) — What to test and how
+7. [Testing patterns](../references/testing-patterns.md) — Naming, structure, coverage expectations
 
 ## Resources (in the main Docling Studio repo)
 
@@ -87,3 +91,29 @@ docker compose -f docker-compose.dev.yml up
 - `CONTRIBUTING.md` at root: contribution guide
 - `CHANGELOG.md` at root: version history
 - `docs/`: MkDocs documentation deployed on GitHub Pages
+
+## Red flags
+
+- New contributor opens a PR without reading commit conventions — point them here first
+- Setup fails silently — check Python/Node versions match prerequisites table
+- "It works on my machine" — use Docker dev stack to eliminate environment differences
+- New contributor assigned a complex task on day one — start with a `good first issue`
+
+## Anti-rationalizations
+
+| Excuse | Why it doesn't hold |
+|--------|---------------------|
+| "I'll read the docs later, let me just code" | Skipping conventions means your first PR will be rejected and you'll read them anyway |
+| "Docker is too slow, I'll run everything locally" | Docker ensures identical environments. Local setup diverges over time |
+| "I don't need to run tests, CI will catch it" | CI feedback takes minutes. Local tests take seconds. Run them before pushing |
+| "The architecture is over-engineered for my small change" | The architecture is what keeps the codebase maintainable. Follow it even for small changes |
+
+## Verification
+
+- [ ] All prerequisites installed (check version table)
+- [ ] Backend starts and responds on `http://localhost:8000/api/health`
+- [ ] Frontend starts and loads on `http://localhost:3000`
+- [ ] `pytest tests/ -v` passes locally
+- [ ] `npm run test:run` passes locally
+- [ ] First commit follows Conventional Commits format
+- [ ] Reading path completed (architecture + conventions + testing)
