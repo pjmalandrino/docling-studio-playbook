@@ -32,6 +32,8 @@ This repo contains **practices and processes only**. The following files live in
 - Open a new ticket → [Issue Creation](processes/issue-creation.md) (`/create-issue`)
 - Kick off a technical design on an issue → [Conception](processes/conception.md) (`/conception`)
 - Start implementing an issue → [Resolve](processes/resolve.md) (`/resolve`)
+- Stand up or watch a deployment → [Monitoring](processes/monitoring.md)
+- Plan the next release cycle → [Roadmap](processes/roadmap.md)
 - Understand the CI → [CI Pipeline](ci-cd/ci.md)
 
 ---
@@ -176,6 +178,8 @@ You have a change to make
 | 13 | [Issue Creation](processes/issue-creation.md) | Opening a new ticket | `/create-issue` slash command — enforces required type + milestone |
 | 14 | [Conception](processes/conception.md) | Before implementing a non-trivial issue | `/conception` slash command — scaffolds `docs/design/<n>-<slug>.md` from the template |
 | 15 | [Resolve](processes/resolve.md) | Start implementing an issue | `/resolve` slash command — validates metadata + design, creates `<prefix>/<n>-<slug>` branch off `main` |
+| 16 | [Monitoring](processes/monitoring.md) | Stand up or operate a deployment | Health endpoint, four golden signals, log + alert setup |
+| 17 | [Roadmap](processes/roadmap.md) | Each release cycle | Now / Next / Later / Not Planned — keeps milestones and public roadmap aligned |
 
 ---
 
@@ -267,6 +271,7 @@ Standalone, actionable checklists used during code reviews and audits:
 | [Security](references/security-checklist.md) | Code review, audit axis 08 | OWASP Top 10, input validation, secrets, dependencies |
 | [Performance](references/performance-checklist.md) | Code review, audit axis 12 | Async I/O, N+1, bundle size, measurement thresholds |
 | [Testing Patterns](references/testing-patterns.md) | Code review, audit axis 09 | Naming, structure, anti-patterns, coverage expectations |
+| [PR Template](references/pr-template.md) | Every PR | Mirror of the repo's `.github/PULL_REQUEST_TEMPLATE.md` — author + reviewer checklists |
 
 ---
 
